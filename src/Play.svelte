@@ -1,7 +1,7 @@
 <script>
     import { onMount } from "svelte";
     // import { Canvas, Layer, t } from "svelte-canvas";
-    import { ID, Name, DrawCard, C_Player } from './game.js';
+    import { ID, Name, DrawCard, C_Player, serverIP } from './game.js';
 
     export let gameCFG;
 
@@ -21,8 +21,8 @@
     let pjs = {}; let cards = []; let turn = 0;
 
     // SOCKET
-    // let WS = new C_Socket("ws://92.59.246.19:22122/game");
-    let WS = new C_Socket("ws://localhost:22122/game");
+    let WS = new C_Socket(`ws://${serverIP}:22122/game`);
+    // let WS = new C_Socket("ws://localhost:22122/game");
 
     WS.onMsgF = () => drawCTX();
 

@@ -1,13 +1,23 @@
 <script>  
-    import { CFGs, View, imagesF, imagesB } from './game.js';
-
-    export let gameName; let CFG = CFGs[gameName];
+    import { onMount } from 'svelte';
+    import { CFGs, View, imagesF, imagesB, serverIP } from './game.js';
 
     import Settings from './Settings.svelte';
     import Game from './Play.svelte';
 
-    let imgNamesF = []; for (let i=1; i<=CFG.f; i++) imgNamesF.push(i);
-    let imgNamesB = []; for (let i=1; i<=CFG.b; i++) imgNamesB.push(i);
+    let gameName; let CFG;
+    let imgNamesF = []; let imgNamesB = [];
+
+    onMount(async () => {
+        const res = await fetch(`http://${serverIP}:22122/`);
+        gameName = await res.text();
+        CFG = CFGs[gameName];
+
+        for (let i=1; i<=CFG.f; i++) imgNamesF.push(i);
+        for (let i=1; i<=CFG.b; i++) imgNamesB.push(i);
+
+        $View = "Settings";
+	});    
 </script>
 
 <svelte:head>
@@ -15,7 +25,9 @@
 	<title>{gameName}</title>
 </svelte:head>
 
-{#if $View=="Settings"}
+{#if $View=="Loading"}
+    <div class="load"> ⚙️ CARGANDO ⚙️ </div>    
+{:else if $View=="Settings"}
     <Settings game={gameName}/>
 {:else if $View=="Game"}
     <Game gameCFG={CFG}/>
@@ -33,3 +45,12 @@
         <img bind:this={imagesB[imgName]} src="/imgs/{gameName}/back/{imgName}.png" alt="{imgName}b">
     {/each}
 </div>
+
+
+<style>
+    .load {
+        height: 100%; width: 100%;
+        display: flex; justify-content: center; align-items: center;
+        color:white;
+    }
+</style>

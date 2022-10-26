@@ -17,11 +17,11 @@ export let CFGs = {
     },
 }
 
-
+export const serverIP = "localhost";
 
 // Writables
 import { get, writable } from 'svelte/store';
-export const View = writable("Settings"); export const ID = writable("");; export const Name = writable("");
+export const View = writable("Loading"); export const ID = writable("");; export const Name = writable("");
 
 // Consts
 const PI2 = Math.PI * 2;

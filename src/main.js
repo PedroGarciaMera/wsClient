@@ -1,9 +1,5 @@
 import App from './Main.svelte';
 
-// "Carcassone", "Chess", "MrJackPocket"
-const app = new App({
-	target: document.body,
-	props: { gameName:"MrJackPocket" }
-});
+const app = new App({ target: document.body });
 
 export default app;
