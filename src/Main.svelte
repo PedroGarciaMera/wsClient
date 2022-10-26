@@ -5,11 +5,11 @@
     import Settings from './Settings.svelte';
     import Game from './Play.svelte';
 
-    let gameName; let CFG;
+    let gameName = "None"; let CFG;
     let imgNamesF = []; let imgNamesB = [];
 
     onMount(async () => {
-        const res = await fetch(`http://${serverIP}:22122/`);
+        const res = await fetch(`http://${serverIP}:22122/`).catch(function(err) { $View = "Error"; return; });;
         gameName = await res.text();
         CFG = CFGs[gameName];
 
@@ -21,12 +21,14 @@
 </script>
 
 <svelte:head>
-    <link rel='icon' type='image/png' href='/imgs/{gameName}/front/1.png'>
+    <link rel='icon' type='image/png' href='/imgs/{gameName}/ico.png'>
 	<title>{gameName}</title>
 </svelte:head>
 
 {#if $View=="Loading"}
-    <div class="load"> ⚙️ CARGANDO ⚙️ </div>    
+    <div class="bigCenter"> ⏳ CARGANDO ⏳ </div>
+{:else if $View=="Error"}
+    <div class="bigCenter"> ⚠️ Unable to connect to server ⚠️ </div>
 {:else if $View=="Settings"}
     <Settings game={gameName}/>
 {:else if $View=="Game"}
@@ -48,9 +50,9 @@
 
 
 <style>
-    .load {
+    .bigCenter {
         height: 100%; width: 100%;
         display: flex; justify-content: center; align-items: center;
-        color:white;
+        font-size: 4vw; color:white;
     }
 </style>
