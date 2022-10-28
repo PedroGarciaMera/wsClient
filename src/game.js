@@ -26,7 +26,8 @@ export const serverIP = "localhost";
 
 // Writables
 import { get, writable } from 'svelte/store';
-export const View = writable("Loading"); export const ID = writable("");; export const Name = writable("");
+export const View = writable("Loading"); 
+export const ID = writable(""); export const Name = writable(""); export const MyTurn = writable(0);
 
 // Consts
 const PI2 = Math.PI * 2;
@@ -40,12 +41,12 @@ export function DrawCard(ctx, card){
     ctx.translate(card.x,card.y);
     ctx.rotate(_angles[card.rot]);
 
-    ctx.globalAlpha = 1;
     if (card.side=="front"){
         if (card.invi) {
             ctx.globalAlpha = 0.6;
-            if (card.invi==get(ID)) ctx.drawImage(imagesF[card.I.front], -card.w_2, -card.h_2, card.w, card.h);
-            else ctx.drawImage(imagesB[card.I.back], -card.w_2, -card.h_2, card.w, card.h);            
+            if (card.invi==get(MyTurn)) ctx.drawImage(imagesF[card.I.front], -card.w_2, -card.h_2, card.w, card.h);
+            else ctx.drawImage(imagesB[card.I.back], -card.w_2, -card.h_2, card.w, card.h);
+            ctx.globalAlpha = 1;         
         } else {
             ctx.drawImage(imagesF[card.I.front], -card.w_2, -card.h_2, card.w, card.h);
         }

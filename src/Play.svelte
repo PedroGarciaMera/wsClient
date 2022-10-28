@@ -1,7 +1,7 @@
 <script>
     import { onMount } from "svelte";
     // import { Canvas, Layer, t } from "svelte-canvas";
-    import { ID, Name, DrawCard, C_Player, serverIP } from './game.js';
+    import { ID, Name, MyTurn, DrawCard, C_Player, serverIP } from './game.js';
 
     export let gameCFG;
 
@@ -34,8 +34,9 @@
     });
 
     WS.addEvent("setMyID",(clientID) => $ID = clientID );
+    WS.addEvent("setMyTurn",(turn) => $MyTurn = turn );
 
-    WS.addEvent("setNames",(data) => { console.log("$ID",$ID)
+    WS.addEvent("setNames",(data) => {
         data.forEach(pj => { pjs[pj.id].name = pj.name; });
     });
 
@@ -55,7 +56,9 @@
 
     WS.addEvent("sideBoardCard",(data) => { cards[data.index].side = data.side; cards[data.index].invi = data.invi; });
 
-    WS.addEvent("setTurn",(data) => { turn = data; sfxTurn.play() });
+    WS.addEvent("setTurn",(data) => { 
+        turn = data; if (turn==$MyTurn) sfxTurn.play();
+    });
 
 
     // Buttons Events & Actions
