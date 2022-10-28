@@ -15,6 +15,11 @@ export let CFGs = {
         c: ["white","#ff9933","#3399ff"],
         actions: {mouseP:[1,false,false], mouseR:[false,3,2]}
     },
+    Stratego: {
+        f:25,b:2,lw:"175%",lh:"100%",stretch:true,static:true,camW:1600,camH:900,
+        c: ["white","#ff8800","#ff0088"],
+        actions: {mouseP:[1,false,false], mouseR:[false,3,2]}
+    },
 }
 
 export const serverIP = "localhost";
